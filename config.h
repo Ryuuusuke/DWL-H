@@ -14,8 +14,8 @@ static const unsigned int gappiv           = 5; /* vert inner gap between window
 static const unsigned int gappoh           = 15; /* horiz outer gap between windows and screen edge */
 static const unsigned int gappov           = 15; /* vert outer gap between windows and screen edge */
 static const float rootcolor[]             = COLOR(0x222222ff);
-static const float bordercolor[]           = COLOR(0x444444ff);
-static const float focuscolor[]            = COLOR(0x68a0adff);
+static const float bordercolor[]           = COLOR(0xc2c8fcff);
+static const float focuscolor[]            = COLOR(0xc2c8fcff);
 static const float urgentcolor[]           = COLOR(0xff0000ff);
 /* This conforms to the xdg-protocol. Set the alpha to zero to restore the old behavior */
 static const float fullscreen_bg[]         = {0.1f, 0.1f, 0.1f, 1.0f}; /* You can also use glsl colors */
@@ -28,8 +28,10 @@ static int log_level = WLR_ERROR;
 
 /* Autostart */
 static const char *const autostart[] = {
-      "swaybg", "-m", "fill", "-i", "/home/ryusuke/Pictures/Wallpaper/anime-girls-8ka-anime-games-anime-girls-eating-WLOP-2268494-wallhere.com.jpg", NULL,
+      "swaybg", "-m", "fill", "-i", "/home/ryusuke/Pictures/Wallpaper/ign_chainsaw-man.png",   NULL,
       "/usr/lib/xfce-polkit/xfce-polkit", NULL,
+      "dbus-pdate-activation-environment", "--systemd", "WAYLAND_DISPLAY", "XDG_CURRENT_DESKTOP", NULL,
+      "hypridle", NULL,
       "waybar", NULL,
         NULL /* terminate */
 };
@@ -67,7 +69,7 @@ static const MonitorRule monrules[] = {
 /* keyboard */
 static const struct xkb_rule_names xkb_rules = {
 	/* can specify fields: rules, model, layout, variant, options */
-	.options = "caps:swapescape",
+   .options = "caps:swapescape",
 };
 
 static const int repeat_rate = 25;
@@ -140,15 +142,16 @@ static const char *kbl_up[]     = { "/usr/bin/brightnessctl",   "-s", "-d", "asu
 static const char *kbl_down[]     = { "/usr/bin/brightnessctl",   "-s", "-d", "asus::kbd_backlight", "s", "1-", NULL };
 
 
-/* commands */
+/* NOTE: Argument Memek */
 static const char *termcmd[] = { "kitty", NULL };
 static const char *menucmd[] = { "rofi", "-show", "drun", NULL };
-static const char *screenshot[] = { "sh", "-c", "scrot -s /home/ryusuke/Pictures/%Y-%m-%d_%H:%M:%S.png -e 'xclip -selection clipboard -t image/png < $f'", NULL };
-
+static const char *screenshot[] = { "sh", "-c", "hyprshot -m region | wl-copy -p -t image/png", NULL };
+static const char *filemanager[] = { "nautilus" , NULL };
 
 static const Key keys[] = {
 	/* Note that Shift changes certain key codes: c -> C, 2 -> at, etc. */
 	/* modifier                  key                 function        argument */
+  { MODKEY,                    XKB_KEY_e,          spawn,          {.v = filemanager } },
   { MODKEY,                    XKB_KEY_p,          spawn,          {.v = screenshot } },
   { MODKEY,                    XKB_KEY_j,          focusstack,     {.i = +1} },
 	{ MODKEY,                    XKB_KEY_d,          spawn,          {.v = menucmd} },
@@ -166,13 +169,13 @@ static const Key keys[] = {
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_Q,          killclient,     {0} },
 	{ MODKEY,                    XKB_KEY_m,          setlayout,      {.v = &layouts[0]} },
 	{ MODKEY,                    XKB_KEY_space,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                    XKB_KEY_comma,      setlayout,      {.v = &layouts[2]} },
+//	{ MODKEY,                    XKB_KEY_comma,      setlayout,      {.v = &layouts[2]} },
 //	{ MODKEY,                    XKB_KEY_space,      setlayout,      {0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_space,      togglefloating, {0} },
 	{ MODKEY,                    XKB_KEY_f,          togglefullscreen, {0} },
 	{ MODKEY,                    XKB_KEY_0,          view,           {.ui = ~0} },
 	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_parenright, tag,            {.ui = ~0} },
-//	{ MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
+	{ MODKEY,                    XKB_KEY_comma,      focusmon,       {.i = WLR_DIRECTION_LEFT} },
 //	{ MODKEY,                    XKB_KEY_period,     focusmon,       {.i = WLR_DIRECTION_RIGHT} },
 //	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_less,       tagmon,         {.i = WLR_DIRECTION_LEFT} },
 //	{ MODKEY|WLR_MODIFIER_SHIFT, XKB_KEY_greater,    tagmon,         {.i = WLR_DIRECTION_RIGHT} },
@@ -181,7 +184,7 @@ static const Key keys[] = {
 	TAGKEYS(          XKB_KEY_3, XKB_KEY_numbersign,                 2),
 	TAGKEYS(          XKB_KEY_4, XKB_KEY_dollar,                     3),
 	TAGKEYS(          XKB_KEY_5, XKB_KEY_percent,                    4),
-	TAGKEYS(          XKB_KEY_s, 0,                                  5),
+	TAGKEYS(          XKB_KEY_s, XKB_KEY_S,                                  5),
 	TAGKEYS(          XKB_KEY_7, XKB_KEY_ampersand,                  6),
 	TAGKEYS(          XKB_KEY_8, XKB_KEY_asterisk,                   7),
 	TAGKEYS(          XKB_KEY_9, XKB_KEY_parenleft,                  8),
