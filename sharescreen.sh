@@ -1,2 +1,2 @@
-/usr/lib/xdg-desktop-portal -r &
-/usr/lib/xdg-desktop-portal-wlr
+/usr/libexec/xdg-desktop-portal -r &
+/usr/libexec/xdg-desktop-portal-wlr
